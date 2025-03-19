@@ -1,0 +1,13 @@
+
+{
+  "name": "paps-mf-starter",
+  "version": "1.0.0",
+  "bin": "./index.js",
+  "description": "A Paps Micro frontend app starter",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": ["create", "starter", "template"],
+  "license": "MIT"
+}
