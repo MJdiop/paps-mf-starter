@@ -1,9 +1,13 @@
 #!/usr/bin/env node
 
+const simpleGit = require('simple-git');
 const fs = require('fs');
 const path = require('path');
+const { execSync } = require('child_process');
 
 const projectName = process.argv[2];
+const gitRepoUrl =
+  'https://github.com/paps-app/paps-micro-frontend-app-starter.git';
 
 if (!projectName) {
   console.error(
@@ -13,26 +17,22 @@ if (!projectName) {
 }
 
 const projectDir = path.resolve(process.cwd(), projectName);
+const git = simpleGit();
 
-// Crée le dossier du projet
-fs.mkdirSync(projectDir, { recursive: true });
+console.log(`Clonage du dépôt ${gitRepoUrl} dans ${projectDir}...`);
 
-// Crée une structure de base
-const files = {
-  'package.json': JSON.stringify(
-    {
-      name: projectName,
-      version: '1.0.0',
-      private: true,
-    },
-    null,
-    2
-  ),
-  'README.md': `# ${projectName}\n\nProjet créé avec create-paps-mf-starter`,
-};
+git.clone(gitRepoUrl, projectDir, (err) => {
+  if (err) {
+    console.error('Erreur lors du clonage du dépôt :', err);
+    process.exit(1);
+  }
 
-Object.entries(files).forEach(([fileName, content]) => {
-  fs.writeFileSync(path.join(projectDir, fileName), content);
+  // Supprime le dossier .git pour ne pas hériter de l'historique Git
+  const gitFolder = path.join(projectDir, '.git');
+  fs.rmSync(gitFolder, { recursive: true, force: true });
+
+  console.log('Installation des dépendances...');
+  execSync('yarn install', { cwd: projectDir, stdio: 'inherit' });
+
+  console.log(`Projet ${projectName} créé avec succès !`);
 });
-
-console.log(`Projet ${projectName} créé avec succès !`);

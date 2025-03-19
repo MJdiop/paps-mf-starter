@@ -1,6 +1,5 @@
-
 {
-  "name": "paps-mf-starter",
+  "name": "create-paps-mf-starter",
   "version": "1.0.0",
   "bin": "./index.js",
   "description": "A Paps Micro frontend app starter",
@@ -8,6 +7,13 @@
   "scripts": {
     "start": "node index.js"
   },
-  "keywords": ["create", "starter", "template"],
-  "license": "MIT"
+  "keywords": [
+    "create",
+    "starter",
+    "template"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "simple-git": "^3.27.0"
+  }
 }
